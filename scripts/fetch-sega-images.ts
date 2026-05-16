@@ -17,7 +17,7 @@ export default async function run(
 ) {
   const coverImgDir = `src/assets/jackets`;
 
-  console.info('* Downloading cover image for songs ...');
+  console.info(`* Downloading cover images for ${songs.length} songs ...`);
   for (const [index, song] of songs.entries()) {
     if (song.jacket && !fs.existsSync(`${coverImgDir}/${song.jacket}`)) {
       console.info(`(${1 + index} / ${songs.length}) ${song.name}`);
