@@ -2,9 +2,11 @@ import fetch from 'node-fetch';
 import path from 'path';
 import { writeJsonData } from '../utils';
 
-const DATA_URL =
-  'https://web.archive.org/web/20230913080336/https://maimai.sega.jp/data/maimai_songs.json';
-const OUTFILE = 'src/songs/maimai_dx_festival_plus.json';
+// const DATA_URL =
+//   'https://web.archive.org/web/20230913080336/https://maimai.sega.jp/data/maimai_songs.json';
+
+const DATA_URL = 'https://web.archive.org/web/20250910034011id_/https://maimai.sega.jp/data/maimai_songs.json';
+const OUTFILE = 'src/songs/maimai_dx_prism_plus.json';
 
 const versionMap = new Map([
   [0, null],
@@ -30,6 +32,9 @@ const versionMap = new Map([
   [230, 'FESTiVAL'],
   [235, 'FESTiVAL PLUS'],
   [240, 'BUDDiES'],
+  [245, 'BUDDiES PLUS'],
+  [250, 'PRiSM'],
+  [255, 'PRiSM PLUS'],
   //! add further version here !//
 ]);
 
@@ -65,6 +70,7 @@ function extractCharts(rawSong: Record<string, any>) {
     { flags: ['std'], diffClass: 'expert', lvl: rawSong.lev_exp },
     { flags: ['std'], diffClass: 'master', lvl: rawSong.lev_mas },
     { flags: ['std'], diffClass: 'remaster', lvl: rawSong.lev_remas },
+    { flags: ['utage'], diffClass: 'utage', lvl: rawSong.lev_utage },
   ]
     .filter((e) => !!e.lvl)
     .map((rawSheet) => ({
@@ -74,7 +80,13 @@ function extractCharts(rawSong: Record<string, any>) {
 }
 
 function convertLevel(lvl: string) {
-  if (lvl.endsWith('+')) {
+  if (lvl.endsWith('+?')) {
+    return Number(`${lvl.substring(0, lvl.length - 2)}.5`);
+  }
+  else if (lvl.endsWith('?')) {
+    return Number(`${lvl.substring(0, lvl.length - 1)}.0`);
+  }
+  else if (lvl.endsWith('+')) {
     return Number(`${lvl.substring(0, lvl.length - 1)}.5`);
   }
   return Number(lvl);

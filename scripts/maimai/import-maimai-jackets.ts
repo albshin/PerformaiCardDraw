@@ -4,7 +4,7 @@ import fetchImages from '../fetch-sega-images';
 
 // https.globalAgent.options.ca = fs.readFileSync('node_modules/node_extra_ca_certs_mozilla_bundle/ca_bundle/ca_intermediate_root_bundle.pem');
 
-const GAME_CODE = 'maimai_dx_festival_plus';
+const GAME_CODE = 'maimai_dx_prism_plus';
 const BASE_URL = 'https://maimaidx.jp/maimai-mobile/img/Music/';
 
 async function run() {
